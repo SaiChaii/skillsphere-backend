@@ -42,4 +42,5 @@ public class SkillController {
     public List<AppUser> getMentorBySkill(@RequestParam("skill") String skill){
         return s.getMentorBySkill(skill);
     }
+
 }
