@@ -104,7 +104,7 @@ public class ConnectionRequest {
         this.status = status;
     }
 
-    public ConnectionRequest() {
-    }
+//    public ConnectionRequest() {
+//    }
 }
 
