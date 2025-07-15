@@ -26,5 +26,4 @@ public class UserController {
     public List<AppUser> getAllUsers(){
         return userService.getAll();
     }
-
 }
