@@ -10,7 +10,8 @@
 |                            | `GET /skills/user/{userId}`      | Get skills by a specific user (profile display)              |
 |                            | `GET /skills/search?name=X`      | Search skill by name/keyword                                 |
 |                            | `GET /skills/mentors?skill=X`    | Get mentors who can teach skill X                            |
-|                            |                                  |                                                               |
+|                            | `GET /skills?search=X`           | Get skills contains the text X                               |
+|                            |                                  |                                                              |
 | 🤝 **Connection Requests** | `POST /requests/connect`         | Learner sends connection request to mentor for a skill       |
 |                            | `GET /requests/user/{userId}`    | Get all requests related to the user (inbox/sent)            |
 |                            | `PUT /requests/{id}/accept`      | Mentor accepts a connection                                  |
