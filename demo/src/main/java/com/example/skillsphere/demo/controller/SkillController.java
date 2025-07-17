@@ -26,13 +26,13 @@ public class SkillController {
 
         List<Skill> response = s.getAllSkills();
 
-        return ResponseEntity.ok(new ApiResponse<>("success", 200, response, "Skills Fetched successfully"));
+        return ResponseEntity.ok(new ApiResponse<>("Success", 200, response, "Skills Fetched successfully"));
     }
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<?>> addSkill(@RequestBody Skill newSkill){
         int res=s.addSkill(newSkill);
-        if(res==0) return ResponseEntity.ok(new ApiResponse<>("success", 200, null, "Skill added Successfully"));
+        if(res==0) return ResponseEntity.ok(new ApiResponse<>("Success", 200, null, "Skill added Successfully"));
         else return ResponseEntity.ok(new ApiResponse<>("Failed", 409, null, "Skill already exists"));
 
     }
@@ -41,7 +41,7 @@ public class SkillController {
     public ResponseEntity<?> getSkillById(@PathVariable long user_id){
 
             AppUserDto user=u.getUserById(user_id);
-            return ResponseEntity.ok(new ApiResponse<>("success", 200, user.getUserSkills(),"Skills for the user fetched succsessfully"));
+            return ResponseEntity.ok(new ApiResponse<>("Success", 200, user.getUserSkills(),"Skills for the user fetched succsessfully"));
 
 
 
@@ -54,7 +54,7 @@ public class SkillController {
             return ResponseEntity.ok(new ApiResponse<>("Success", 200, null, "No skills with the provided keyword"));
         }
         else {
-            return ResponseEntity.ok(new ApiResponse<>("Sucess", 200, skill_list,"These are the skills with keyword provided"));
+            return ResponseEntity.ok(new ApiResponse<>("Success", 200, skill_list,"These are the skills with keyword provided"));
         }
     }
 
@@ -65,5 +65,16 @@ public class SkillController {
             return ResponseEntity.ok(new ApiResponse<>("Success", 200, null, "No users with this skill"));
         }
         else return ResponseEntity.ok(new ApiResponse<>("Success", 200, users, "Successfully fetched the users for the mentor"));
+    }
+
+    @GetMapping("/query")
+    public ResponseEntity<ApiResponse<?>> getSkillsOnSearch(@RequestParam("search") String searchText){
+        List<Skill> skills=s.getSkillsOnSearch(searchText);
+        if(skills.isEmpty()){
+            return ResponseEntity.ok(new ApiResponse<>("Success", 200, skills, "No skills found with the search text"));
+        }
+        else{
+            return ResponseEntity.ok(new ApiResponse<>("Success",200,skills,"Successfully fetched the skills on the text"));
+        }
     }
 }

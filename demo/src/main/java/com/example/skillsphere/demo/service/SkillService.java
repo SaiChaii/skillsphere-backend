@@ -65,4 +65,13 @@ public class SkillService {
         }
 
     }
+
+    public List<Skill> getSkillsOnSearch(String searchText) {
+        try {
+            return s.findBySkillNameContainingIgnoreCase(searchText);
+        } catch (Exception e) {
+            throw new RuntimeException("Error finding skills with the given search text: " + searchText, e);
+        }
+    }
+
 }
