@@ -31,8 +31,10 @@ public class SkillController {
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<?>> addSkill(@RequestBody Skill newSkill){
-        String res=s.addSkill(newSkill);
-        return ResponseEntity.ok(new ApiResponse<>("success", 200, res, "Skills fetched Successfully"));
+        int res=s.addSkill(newSkill);
+        if(res==0) return ResponseEntity.ok(new ApiResponse<>("success", 200, null, "Skill added Successfully"));
+        else return ResponseEntity.ok(new ApiResponse<>("Failed", 409, null, "Skill already exists"));
+
     }
 
     @GetMapping("/user/{user_id}")
