@@ -1,5 +1,6 @@
 package com.example.skillsphere.demo.controller;
 
+import com.example.skillsphere.demo.Response.ApiResponse;
 import com.example.skillsphere.demo.dto.ConnectionRequestPayload;
 import com.example.skillsphere.demo.service.ConnectionRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ public class ConnectionController {
     private ConnectionRequestService connectionRequestService;
 
     @PostMapping("/connect")
-    public ResponseEntity<String> connectionRequest(@RequestBody ConnectionRequestPayload newConnection){
+    public ResponseEntity<ApiResponse<?>> connectionRequest(@RequestBody ConnectionRequestPayload newConnection){
         String message=connectionRequestService.sendRequest(newConnection);
-        if(message.equals("True")) return ResponseEntity.ok("Request Sent");
+        if(message.equals("True")) return ResponseEntity.ok(new ApiResponse<>("Success", 200, null, "Request Sent"));
         else {
-            return ResponseEntity.status(404).body("Request Already sent");
+            return ResponseEntity.ok(new ApiResponse<>("error", 404, null, "Request already sent"));
         }
     }
 }

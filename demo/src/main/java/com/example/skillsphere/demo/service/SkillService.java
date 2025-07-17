@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -46,14 +47,21 @@ public class SkillService {
         return res;
     }
 
-    public String addSkill(Skill newSkill) {
+    public int addSkill(Skill newSkill) {
         String skillName=newSkill.getSkillName();
-        if(s.findAll().stream().anyMatch((t)->t.getSkillName().equals(skillName))){
-            return "Failed";
+        Optional<Skill> existing = s.findBySkillNameIgnoreCase(skillName);
+        if(existing.isPresent()){
+            return 0;
         }
+
         else{
-            s.save(newSkill);
-            return "Success";
+            try{
+                s.save(newSkill);
+                return 1;
+            } catch (Exception e) {
+                throw new RuntimeException("Error saving skill", e);
+            }
+
         }
 
     }
