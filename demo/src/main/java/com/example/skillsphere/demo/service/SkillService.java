@@ -50,7 +50,7 @@ public class SkillService {
     public int addSkill(Skill newSkill) {
         String skillName=newSkill.getSkillName();
         Optional<Skill> existing = s.findBySkillNameIgnoreCase(skillName);
-        if(s.findAll().stream().anyMatch((t)->t.getSkillName().equals(skillName))){
+        if(existing.isPresent()){
             return 0;
         }
 
