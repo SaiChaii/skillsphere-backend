@@ -7,8 +7,11 @@ import com.example.skillsphere.demo.repository.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,8 +70,11 @@ public class SkillService {
     }
 
     public List<Skill> getSkillsOnSearch(String searchText) {
+
         try {
-            return s.findBySkillNameContainingIgnoreCase(searchText);
+            Pageable topFive =  PageRequest.of(0, 5);
+            Page<Skill> skills = s.findBySkillNameContainingIgnoreCase(searchText, topFive);
+            return skills.toList();
         } catch (Exception e) {
             throw new RuntimeException("Error finding skills with the given search text: " + searchText, e);
         }

@@ -1,6 +1,9 @@
 package com.example.skillsphere.demo.repository;
 
 import com.example.skillsphere.demo.Entity.Skill;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +19,5 @@ public interface SkillRepo extends JpaRepository<Skill,Long> {
 //    @Query("SELECT * FROM Skill s WHERE LOWER(s.skillName) LIKE LOWER(CONCAT('%', :searchText ,'%'))")
 //    List<Skill> findSkillsBySearchText(@Param("searchText") String searchText);
 
-    List<Skill> findBySkillNameContainingIgnoreCase(String searchText);
-
+    Page<Skill> findBySkillNameContainingIgnoreCase(String searchText, Pageable topFive);
 }
