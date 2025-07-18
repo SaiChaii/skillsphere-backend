@@ -2,17 +2,18 @@ package com.example.skillsphere.demo.service;
 
 import com.example.skillsphere.demo.Entity.AppUser;
 import com.example.skillsphere.demo.Entity.Skill;
+import com.example.skillsphere.demo.dto.AppUserDto;
 import com.example.skillsphere.demo.repository.SkillRepo;
 import com.example.skillsphere.demo.repository.UserRepo;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,18 +37,16 @@ public class SkillService {
         return user.getUserSkills();
     }
 
-    public List<Skill> getSkillsByKey(String key) {
-        List<Skill> all=s.findAll();
-        List<Skill> filteredSkills=all.stream().filter((x)->x.getSkillName().toLowerCase().contains(key.toLowerCase())).collect(Collectors.toList());
-        return filteredSkills;
-    }
+    public List<AppUserDto> getMentorBySkill(String skill) {
+        List<AppUser> res=u.findByUserSkillsSkillNameContainingIgnoreCase(skill);
+        if(res.isEmpty()){
+            throw new EntityNotFoundException("No user with this Skill");
+        }
+        return res.stream()
+                .map(t -> new AppUserDto(t.getId(), t.getName(),t.getEmail(),t.getPassword(),
+                        t.getRole(),t.getUserSkills(),t.getRequestsSent(),t.getRequestsReceived(),t.getConnectedUsers()
+                )).collect(Collectors.toList());
 
-    public List<AppUser> getMentorBySkill(String skill) {
-        List<AppUser> allUsers=u.findAll();
-//        System.out.println("Inside the service layer");
-        List<AppUser> res=allUsers.stream().filter((x)->x.getUserSkills().stream().anyMatch((t)->t.getSkillName().toLowerCase().contains(skill.toLowerCase()))).collect(Collectors.toList());
-//        System.out.println(res);
-        return res;
     }
 
     public int addSkill(Skill newSkill) {
@@ -69,14 +68,27 @@ public class SkillService {
 
     }
 
-    public List<Skill> getSkillsOnSearch(String searchText) {
+    public List<Skill> getSkillsOnSearch(String searchText,String type) {
 
         try {
-            Pageable topFive =  PageRequest.of(0, 5);
-            Page<Skill> skills = s.findBySkillNameContainingIgnoreCase(searchText, topFive);
-            return skills.toList();
+            if(type.equals("search")) {
+                Pageable topFive = PageRequest.of(0, 5);
+                Page<Skill> skills = s.findBySkillNameContainingIgnoreCase(searchText, topFive);
+
+                if (skills.isEmpty()) {
+                    throw new EntityNotFoundException(new EntityNotFoundException("Skill not found").getMessage());
+                }
+                return skills.toList();
+            }
+            else{
+                List<Skill> all=s.findBySkillNameContainingIgnoreCase(searchText);
+                if(all.isEmpty()) {
+                    throw new EntityNotFoundException(new EntityNotFoundException("Skill not found").getMessage());
+                }
+                return all;
+            }
         } catch (Exception e) {
-            throw new RuntimeException("Error finding skills with the given search text: " + searchText, e);
+            throw e;
         }
     }
 

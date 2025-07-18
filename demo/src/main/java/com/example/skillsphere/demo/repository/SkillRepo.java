@@ -16,8 +16,8 @@ import java.util.Optional;
 public interface SkillRepo extends JpaRepository<Skill,Long> {
     Optional<Skill> findBySkillNameIgnoreCase(String skillName);
 
-//    @Query("SELECT * FROM Skill s WHERE LOWER(s.skillName) LIKE LOWER(CONCAT('%', :searchText ,'%'))")
-//    List<Skill> findSkillsBySearchText(@Param("searchText") String searchText);
-
     Page<Skill> findBySkillNameContainingIgnoreCase(String searchText, Pageable topFive);
+
+    List<Skill> findBySkillNameContainingIgnoreCase(String key);
+
 }

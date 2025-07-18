@@ -49,18 +49,13 @@ public class SkillController {
 
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<?>> getSkillbyWord(@RequestParam("name") String key){
-        List<Skill> skill_list=s.getSkillsByKey(key);
-        if(skill_list.isEmpty()){
-            return ResponseEntity.ok(new ApiResponse<>("Success", 200, null, "No skills with the provided keyword"));
-        }
-        else {
-            return ResponseEntity.ok(new ApiResponse<>("Success", 200, skill_list,"These are the skills with keyword provided"));
-        }
+        List<Skill> skill_list=s.getSkillsOnSearch(key,"all");
+        return ResponseEntity.ok(new ApiResponse<>("Success", 200, skill_list,"These are the skills with keyword provided"));
     }
 
     @GetMapping("/mentors")
     public ResponseEntity<ApiResponse<?>> getMentorBySkill(@RequestParam("skill") String skill){
-        List<AppUser> users=s.getMentorBySkill(skill);
+        List<AppUserDto> users=s.getMentorBySkill(skill);
         if(users.isEmpty()) {
             return ResponseEntity.ok(new ApiResponse<>("Success", 200, null, "No users with this skill"));
         }
@@ -69,12 +64,7 @@ public class SkillController {
 
     @GetMapping("/query")
     public ResponseEntity<ApiResponse<?>> getSkillsOnSearch(@RequestParam("search") String searchText){
-        List<Skill> skills=s.getSkillsOnSearch(searchText);
-        if(skills.isEmpty()){
-            return ResponseEntity.ok(new ApiResponse<>("Success", 200, skills, "No skills found with the search text"));
-        }
-        else{
-            return ResponseEntity.ok(new ApiResponse<>("Success",200,skills,"Successfully fetched the skills on the text"));
-        }
+        List<Skill> skills=s.getSkillsOnSearch(searchText,"search");
+        return ResponseEntity.ok(new ApiResponse<>("Success",200,skills,"Successfully fetched the skills on the text"));
     }
 }
