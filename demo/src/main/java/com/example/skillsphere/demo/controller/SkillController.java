@@ -56,10 +56,7 @@ public class SkillController {
     @GetMapping("/mentors")
     public ResponseEntity<ApiResponse<?>> getMentorBySkill(@RequestParam("skill") String skill){
         List<AppUserDto> users=s.getMentorBySkill(skill);
-        if(users.isEmpty()) {
-            return ResponseEntity.ok(new ApiResponse<>("Success", 200, null, "No users with this skill"));
-        }
-        else return ResponseEntity.ok(new ApiResponse<>("Success", 200, users, "Successfully fetched the users for the mentor"));
+        return ResponseEntity.ok(new ApiResponse<>("Success", 200, users, "Successfully fetched the users for the mentor"));
     }
 
     @GetMapping("/query")

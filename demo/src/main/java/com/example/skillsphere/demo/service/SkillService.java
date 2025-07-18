@@ -29,6 +29,9 @@ public class SkillService {
 
     public List<Skill> getAllSkills(){
         List<Skill> all=s.findAll();
+        if(all.isEmpty()){
+            throw new EntityNotFoundException("No skills found");
+        }
         return all;
     }
 
@@ -76,14 +79,14 @@ public class SkillService {
                 Page<Skill> skills = s.findBySkillNameContainingIgnoreCase(searchText, topFive);
 
                 if (skills.isEmpty()) {
-                    throw new EntityNotFoundException(new EntityNotFoundException("Skill not found").getMessage());
+                    throw new EntityNotFoundException("Skill not found");
                 }
                 return skills.toList();
             }
             else{
                 List<Skill> all=s.findBySkillNameContainingIgnoreCase(searchText);
                 if(all.isEmpty()) {
-                    throw new EntityNotFoundException(new EntityNotFoundException("Skill not found").getMessage());
+                    throw new EntityNotFoundException("Skill not found");
                 }
                 return all;
             }
