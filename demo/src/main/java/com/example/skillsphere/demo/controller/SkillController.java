@@ -1,6 +1,5 @@
 package com.example.skillsphere.demo.controller;
 
-import com.example.skillsphere.demo.Entity.AppUser;
 import com.example.skillsphere.demo.Entity.Skill;
 import com.example.skillsphere.demo.Response.ApiResponse;
 import com.example.skillsphere.demo.dto.AppUserDto;
