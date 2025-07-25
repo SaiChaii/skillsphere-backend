@@ -8,6 +8,7 @@ import com.example.skillsphere.demo.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -17,6 +18,9 @@ public class SkillController {
 
     @Autowired
     private SkillService s;
+
+    @Autowired
+    private RestTemplate restTemplate;
     //@Autowired
     // private UserService u;
 
