@@ -20,8 +20,16 @@ public class Skill {
     private long skillId;
     private String skillName;
     private String skillDesc;
+    @ElementCollection
+    @CollectionTable(name = "skill_mentors", joinColumns = @JoinColumn(name = "skill_id"))
+    @Column(name = "mentor_id")
     private List<Long> mentors_teaching;
+
+    @ElementCollection
+    @CollectionTable(name = "skill_learners", joinColumns = @JoinColumn(name = "skill_id"))
+    @Column(name = "learner_id")
     private List<Long> learners_enrolled;
+
 
     public long getSkillId() {
         return skillId;

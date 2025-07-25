@@ -3,6 +3,7 @@ package com.example.skillsphere.demo.service;
 import com.example.skillsphere.demo.Entity.AppUser;
 import com.example.skillsphere.demo.Entity.Skill;
 import com.example.skillsphere.demo.dto.AppUserDto;
+import com.example.skillsphere.demo.dto.SkillDto;
 import com.example.skillsphere.demo.repository.SkillRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -17,21 +18,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Slf4j
+//@Slf4j
 @Service
 public class SkillService {
 
     @Autowired
     private SkillRepo s;
-    @Autowired
+    //@Autowired
     //private UserRepo u;
 
-    public List<Skill> getAllSkills(){
+    public List<SkillDto> getAllSkills(){
         List<Skill> all=s.findAll();
         if(all.isEmpty()){
             throw new EntityNotFoundException("No skills found");
         }
-        return all;
+        return all.stream().map((t)->new SkillDto(t.getSkillId(),t.getSkillName(),t.getSkillDesc())).collect(Collectors.toList());
     }
 
 //    public List<Skill> getSkillOfUserByUserId(Long userId) {
@@ -70,7 +71,7 @@ public class SkillService {
 
     }
 
-    public List<Skill> getSkillsOnSearch(String searchText,String type) {
+    public List<SkillDto> getSkillsOnSearch(String searchText, String type) {
 
         try {
             if(type.equals("search")) { //search skill by skillname
@@ -80,14 +81,15 @@ public class SkillService {
                 if (skills.isEmpty()) {
                     throw new EntityNotFoundException("Skill not found");
                 }
-                return skills.toList();
+                List<Skill> searched_skills= skills.toList();
+                return searched_skills.stream().map((t)->new SkillDto(t.getSkillId(),t.getSkillName(),t.getSkillDesc())).collect(Collectors.toList());
             }
             else{ //type="all" get all skills
                 List<Skill> all=s.findBySkillNameContainingIgnoreCase(searchText);
                 if(all.isEmpty()) {
                     throw new EntityNotFoundException("Skill not found");
                 }
-                return all;
+                return all.stream().map((t)->new SkillDto(t.getSkillId(),t.getSkillName(),t.getSkillDesc())).collect(Collectors.toList());
             }
         } catch (Exception e) {
             throw e;
