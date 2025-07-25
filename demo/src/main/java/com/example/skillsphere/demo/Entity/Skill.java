@@ -19,11 +19,17 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long skillId;
     private String skillName;
-    private String description;
-    @ManyToOne
-    @JoinColumn(name="mentor_id")
-    @JsonBackReference
-    private AppUser mentor;
+    private String skillDesc;
+    @ElementCollection
+    @CollectionTable(name = "skill_mentors", joinColumns = @JoinColumn(name = "skill_id"))
+    @Column(name = "mentor_id")
+    private List<Long> mentors_teaching;
+
+    @ElementCollection
+    @CollectionTable(name = "skill_learners", joinColumns = @JoinColumn(name = "skill_id"))
+    @Column(name = "learner_id")
+    private List<Long> learners_enrolled;
+
 
     public long getSkillId() {
         return skillId;
@@ -41,19 +47,27 @@ public class Skill {
         this.skillName = skillName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSkillDesc() {
+        return skillDesc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSkillDesc(String skillDesc) {
+        this.skillDesc = skillDesc;
     }
 
-    public AppUser getMentor() {
-        return mentor;
+    public List<Long> getMentors_teaching() {
+        return mentors_teaching;
     }
 
-    public void setMentor(AppUser mentor) {
-        this.mentor = mentor;
+    public void setMentors_teaching(List<Long> mentors_teaching) {
+        this.mentors_teaching = mentors_teaching;
+    }
+
+    public List<Long> getLearners_enrolled() {
+        return learners_enrolled;
+    }
+
+    public void setLearners_enrolled(List<Long> learners_enrolled) {
+        this.learners_enrolled = learners_enrolled;
     }
 }
