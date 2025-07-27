@@ -1,12 +1,10 @@
 package com.example.skillsphere.demo.service;
 
-import com.example.skillsphere.demo.Entity.AppUser;
+
 import com.example.skillsphere.demo.Entity.Skill;
-import com.example.skillsphere.demo.dto.AppUserDto;
 import com.example.skillsphere.demo.dto.SkillDto;
 import com.example.skillsphere.demo.repository.SkillRepo;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,14 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-//@Slf4j
 @Service
 public class SkillService {
 
     @Autowired
     private SkillRepo s;
-    //@Autowired
-    //private UserRepo u;
 
     public List<SkillDto> getAllSkills(){
         List<Skill> all=s.findAll();
