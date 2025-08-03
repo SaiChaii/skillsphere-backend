@@ -19,23 +19,20 @@ public class ConnectionRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JsonBackReference(value = "user-learner")
-    private AppUser learner;
-
-    @ManyToOne
-    @JsonBackReference(value = "user-mentor")
-    private AppUser mentor;
-
-
-    @ManyToOne
-    private Skill skill;
-
+    private Long connectionFromId;
+    private Long connectionToId;
     private String message;
 
     @Enumerated(EnumType.STRING)
     private RequestStatus status; // Enum: PENDING, ACCEPTED, REJECTED
+
+    public ConnectionRequest(Long id, Long connectionFromId, Long connectionToId, String message, RequestStatus status) {
+        this.id = id;
+        this.connectionFromId = connectionFromId;
+        this.connectionToId = connectionToId;
+        this.message = message;
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -45,28 +42,20 @@ public class ConnectionRequest {
         this.id = id;
     }
 
-    public AppUser getLearner() {
-        return learner;
+    public Long getConnectionFromId() {
+        return connectionFromId;
     }
 
-    public void setLearner(AppUser learner) {
-        this.learner = learner;
+    public void setConnectionFromId(Long connectionFromId) {
+        this.connectionFromId = connectionFromId;
     }
 
-    public AppUser getMentor() {
-        return mentor;
+    public Long getConnectionToId() {
+        return connectionToId;
     }
 
-    public void setMentor(AppUser mentor) {
-        this.mentor = mentor;
-    }
-
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
+    public void setConnectionToId(Long connectionToId) {
+        this.connectionToId = connectionToId;
     }
 
     public String getMessage() {
@@ -84,25 +73,5 @@ public class ConnectionRequest {
     public void setStatus(RequestStatus status) {
         this.status = status;
     }
-
-    public ConnectionRequest(AppUser learner, AppUser mentor, Skill skill, String message, RequestStatus status) {
-        this.learner = learner;
-        this.mentor = mentor;
-        this.skill = skill;
-        this.message = message;
-        this.status = status;
-    }
-
-    public ConnectionRequest(Long id, AppUser learner, AppUser mentor, Skill skill, String message, RequestStatus status) {
-        this.id = id;
-        this.learner = learner;
-        this.mentor = mentor;
-        this.skill = skill;
-        this.message = message;
-        this.status = status;
-    }
-
-//    public ConnectionRequest() {
-//    }
 }
 

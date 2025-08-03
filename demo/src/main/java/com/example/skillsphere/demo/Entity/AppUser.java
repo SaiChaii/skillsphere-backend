@@ -33,21 +33,6 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<Skill> userSkills;
-
-    @OneToMany(mappedBy = "learner", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "user-learner")
-    private List<ConnectionRequest> requestsSent;
-
-    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "user-mentor")
-    private List<ConnectionRequest> requestsReceived;
-
-    @ManyToMany
-    private List<AppUser> connectedUsers;
-
     public Long getId() {
         return id;
     }
@@ -86,37 +71,5 @@ public class AppUser {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public List<Skill> getUserSkills() {
-        return userSkills;
-    }
-
-    public void setUserSkills(List<Skill> userSkills) {
-        this.userSkills = userSkills;
-    }
-
-    public List<ConnectionRequest> getRequestsSent() {
-        return requestsSent;
-    }
-
-    public void setRequestsSent(List<ConnectionRequest> requestsSent) {
-        this.requestsSent = requestsSent;
-    }
-
-    public List<ConnectionRequest> getRequestsReceived() {
-        return requestsReceived;
-    }
-
-    public void setRequestsReceived(List<ConnectionRequest> requestsReceived) {
-        this.requestsReceived = requestsReceived;
-    }
-
-    public List<AppUser> getConnectedUsers() {
-        return connectedUsers;
-    }
-
-    public void setConnectedUsers(List<AppUser> connectedUsers) {
-        this.connectedUsers = connectedUsers;
     }
 }
